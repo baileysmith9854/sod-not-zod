@@ -1,25 +1,26 @@
-package edu.cpt167.Smith.ParticipationExercise5;
+package edu.cpt167.Smith.ParticipationExercise6;
 //AUTHOR: BAILEY SMITH
 //COURSE: CPT167
 //PURPOSE: A PRACTICE EXERCISE
-//STARTDATE: FEBUARY 14, 2019
-//FILENAME: SOD DISCOUNT CALCULATOR
+//STARTDATE: FEBUARY 18, 2019
+//FILENAME:FINAL SOD CALCULATOR
 
 import java.util.Scanner;
 
-public class SodDiscountCalculator 
+public class FinalSodCalculator 
 {
 	//CONSTANTS
 	final static double DISCOUNT_RATE_MEMBER = .15;
 	final static double DISCOUNT_RATE_SENIOR = .25;
 	final static double DISCOUNT_RATE_NONE = 0.0;
 	final static double TAX_RATE = .075;
-	final static String NAME_PREMIUM = "Astro Turf";
-	final static double PRICE_PREMIUM = 2.1;
-	final static String NAME_SPECIAL = "SC Rye";
-	final static double PRICE_SPECIAL = 1.5;
-	final static String NAME_BASIC = "Kentucky Bluegrass";
-	final static double PRICE_BASIC = .65;
+	final static String NAME_ITEM_A = "Astro Turf";
+	final static double PRICE_ITEM_A = 2.1;
+	final static String NAME_ITEM_B = "SC Rye";
+	final static double PRICE_ITEM_B = 1.5;
+	final static String NAME_ITEM_C = "Kentucky Bluegrass";
+	final static double PRICE_ITEM_C = .65;
+	final static double HOW_MANY = 1;
 
 	public static void main(String[] args) 
 	{
@@ -40,9 +41,14 @@ public class SodDiscountCalculator
 		double subTotal = 0.0;//CALCULATE
 		double tax = 0.0;//CALCULATE
 		double totalCost = 0.0;//CALCULATE
+		double customerTotal = 0.0;//
 		double itemPrice =0.0;//CALCULATE
 		double grandTotal = 0.0;//CALCULATE
 		int howMany = 0;//CALCULATE
+		int itemCounter = 0;//
+		int itemACount =0;
+		int itemBCount = 0;
+		int itemCCount = 0;
 		int memberCount = 0; //COUNTER
 		int seniorCount = 0; //COUNTER
 		int noDiscountCount = 0; //COUNTER
@@ -54,68 +60,80 @@ public class SodDiscountCalculator
 		userName = getUserName(input);
 
 		//MAIN MENU VALIDATION
-		menuSelection = mainMenuValidation(input,DISCOUNT_RATE_MEMBER,DISCOUNT_RATE_SENIOR,DISCOUNT_RATE_NONE);
+		menuSelection = mainMenuValidation(input);
 
 		while(menuSelection !='Q') 
 		{
-			//ITEM SELECTION STRUCTURE
-			itemSelection = itemMenuValidation(input);
-
 			//USER INPUT FOR HOW MANY PALLETS
 			howMany = howManyPallets(input);
 
-			if(menuSelection=='A') 
+			if(itemCounter < howMany)
 			{
-				discountRate=DISCOUNT_RATE_MEMBER;
-				memberCount ++;
-			}
-			else if(menuSelection=='B') 
-			{
-				discountRate=DISCOUNT_RATE_SENIOR;
-				seniorCount ++;
-			}
-			else 
-			{
-				discountRate=DISCOUNT_RATE_NONE;
-				noDiscountCount ++;
-			}
-			//MENU SELECTION STRUCTURE
+				//ITEM SELECTION STRUCTURE
+				itemSelection = itemMenuValidation(input);
 
-			if(itemSelection=='A') 
-			{
-				itemName=NAME_PREMIUM;
-				itemPrice=PRICE_PREMIUM;
-			}
-			else if(itemSelection=='B') 
-			{
-				itemName=NAME_SPECIAL;
-				itemPrice=PRICE_SPECIAL;
-			}
-			else
-			{
-				itemName=NAME_BASIC;
-				itemPrice=PRICE_BASIC;
-			}
-			//ITEM SELECTION STRUCTURE
+				if(menuSelection=='A') 
+				{
+					discountRate=DISCOUNT_RATE_MEMBER;
+					memberCount ++;
+				}
+				else if(menuSelection=='B') 
+				{
+					discountRate=DISCOUNT_RATE_SENIOR;
+					seniorCount ++;
+				}
+				else 
+				{
+					discountRate=DISCOUNT_RATE_NONE;
+					noDiscountCount ++;
+				}
+				//MENU SELECTION STRUCTURE
+
+				if(itemSelection=='A') 
+				{
+					itemName=NAME_ITEM_A;
+					itemPrice=PRICE_ITEM_A;
+					itemACount ++;
+				}
+				else if(itemSelection=='B') 
+				{
+					itemName=NAME_ITEM_B;
+					itemPrice=PRICE_ITEM_B;
+					itemBCount ++;
+				}
+				else
+				{
+					itemName=NAME_ITEM_C;
+					itemPrice=PRICE_ITEM_C;
+					itemCCount ++;
+				}
+				//ITEM SELECTION STRUCTURE
 
 
-			//BEGIN CALCULATIONS
-			discountAmount = itemPrice * discountRate;
-			discountPrice = itemPrice - discountAmount;
-			subTotal = howMany * discountPrice;
-			tax = subTotal * TAX_RATE;
-			totalCost = subTotal + tax;
-			grandTotal = grandTotal + totalCost;
-			//END OF CALCULATIONS
+				//BEGIN CALCULATIONS
+				discountAmount = itemPrice * discountRate;
+				discountPrice = itemPrice - discountAmount;
+				subTotal = HOW_MANY * discountPrice;
+				tax = subTotal * TAX_RATE;
+				totalCost = subTotal + tax;
+				customerTotal = customerTotal + totalCost;
+				grandTotal = grandTotal + totalCost;
+				//END OF CALCULATIONS
 
-			//ITEM RECIEPT
-			if(totalCost > 0) 
-			{
+				//ITEM RECIEPT
 				itemReciept(userName, itemName, howMany, itemPrice, discountAmount, discountPrice, subTotal, tax, totalCost);
+				itemCounter ++;
+			}//HOWMANY LOOP
+
+			if(howMany > 0)
+			{
+				customerReport(howMany, itemACount, itemBCount, itemCCount, customerTotal);
 			}
+
+			customerTotal = customerTotal + totalCost;
 
 			//MAIN MENU VALIDATION
-			menuSelection = mainMenuValidation(input,DISCOUNT_RATE_MEMBER,DISCOUNT_RATE_SENIOR,DISCOUNT_RATE_NONE);
+			menuSelection = mainMenuValidation(input);
 
 		}//END OF RUN WHILE LOOP
 
@@ -148,7 +166,7 @@ public class SodDiscountCalculator
 	}//END GET USER NAME
 
 	//MAIN MENU VALIDATION
-	public static char mainMenuValidation(Scanner borrowedInput, final double DISCOUNT_RATE_MEMBER, final double DISCOUNT_RATE_SENIOR, final double DISCOUNT_RATE_NONE)
+	public static char mainMenuValidation(Scanner borrowedInput)
 	{
 		char localMenuSelection=' ';
 		System.out.printf("\n------------------------------------------------------------\n");
@@ -179,15 +197,32 @@ public class SodDiscountCalculator
 		return localMenuSelection;
 	}//END MAIN MENU VALIDATION
 
+	//HOW MANY PALLETS
+	public static int howManyPallets(Scanner borrowedInput)
+	{
+		int localHowMany = 0;
+		System.out.println("\nHow many different pallets would you like to purchase?");
+		localHowMany = borrowedInput.nextInt();
+
+		while(localHowMany < 0)
+		{
+			System.out.printf("%30s","INVALID SELECTION");
+			System.out.printf("\n------------------------------------------------------------\n");
+			System.out.println("\nHow many pallets would you like to purchase?");
+			localHowMany = borrowedInput.nextInt();
+		}
+		return localHowMany;
+	}//END OF HOW MANY METHOD
+
 	//ITEM MENU VALIDATION
 	public static char itemMenuValidation(Scanner borrowedInput)
 	{
 		char localItemSelection = ' ';
 		System.out.printf("\n------------------------------------------------------------\n");
 		System.out.printf("%30s\n","ITEM SELECTION MENU");
-		System.out.printf("%-10s%-30s%1s%10.2f\n","[A] for",NAME_PREMIUM,"$",PRICE_PREMIUM);
-		System.out.printf("%-10s%-30s%1s%10.2f\n","[B] for",NAME_SPECIAL,"$",PRICE_SPECIAL);
-		System.out.printf("%-10s%-30s%1s%10.2f\n","[C] for",NAME_BASIC,"$",PRICE_BASIC);
+		System.out.printf("%-10s%-30s%1s%10.2f\n","[A] for",NAME_ITEM_A,"$",PRICE_ITEM_A);
+		System.out.printf("%-10s%-30s%1s%10.2f\n","[B] for",NAME_ITEM_B,"$",PRICE_ITEM_B);
+		System.out.printf("%-10s%-30s%1s%10.2f\n","[C] for",NAME_ITEM_C,"$",PRICE_ITEM_C);
 		System.out.println("Please input your selection now:");
 		localItemSelection = borrowedInput.next().toUpperCase().charAt(0);
 		System.out.printf("\n------------------------------------------------------------");
@@ -198,9 +233,9 @@ public class SodDiscountCalculator
 			System.out.printf("%30s","INVALID SELECTION");
 			System.out.printf("\n------------------------------------------------------------\n");
 			System.out.printf("%30s\n","ITEM SELECTION MENU");
-			System.out.printf("%-10s%-30s%1s%10.2f\n","[A] for",NAME_PREMIUM,"$",PRICE_PREMIUM);
-			System.out.printf("%-10s%-30s%1s%10.2f\n","[B] for",NAME_SPECIAL,"$",PRICE_SPECIAL);
-			System.out.printf("%-10s%-30s%1s%10.2f\n","[C] for",NAME_BASIC,"$",PRICE_BASIC);
+			System.out.printf("%-10s%-30s%1s%10.2f\n","[A] for",NAME_ITEM_A,"$",PRICE_ITEM_A);
+			System.out.printf("%-10s%-30s%1s%10.2f\n","[B] for",NAME_ITEM_B,"$",PRICE_ITEM_B);
+			System.out.printf("%-10s%-30s%1s%10.2f\n","[C] for",NAME_ITEM_C,"$",PRICE_ITEM_C);
 			System.out.println("Please input your selection now:");
 			localItemSelection = borrowedInput.next().toUpperCase().charAt(0);
 			System.out.printf("\n------------------------------------------------------------");
@@ -209,15 +244,6 @@ public class SodDiscountCalculator
 		return localItemSelection;
 	}//END OF ITEM MENU VALIDATION METHOD
 
-	//HOW MANY PALLETS
-	public static int howManyPallets(Scanner borrowedInput)
-	{
-		int localHowMany = 0;
-		System.out.println("\nHow many pallets would you like to purchase?");
-		localHowMany = borrowedInput.nextInt();
-		return localHowMany;
-	}//END OF HOW MANY METHOD
-
 	//ITEM RECIEPT
 	public static void itemReciept(String userName, String itemName, int howMany, double itemPrice, double discountAmount, double discountPrice, double subTotal, double tax, double totalCost)
 	{
@@ -225,7 +251,7 @@ public class SodDiscountCalculator
 		System.out.printf("\n************************************************************");
 		System.out.printf("\nThank you " +userName+ " for purchasing " +itemName);
 		System.out.printf("\n");
-		System.out.printf("%-10s%-1s%-10d%-14s\n","You bought","",howMany," bags of sod.");
+		System.out.printf("%-10s%-1s%-10d%-14s\n","You bought","",howMany," pallet(s) of sod.");
 		System.out.printf("\nYour Reciept will be printed below.");
 		System.out.printf("\n____________________________________________________________\n");
 		System.out.printf("%-38s%1s%10.2f\n","The ORIGINAL price of the sod is:","$",itemPrice);
@@ -241,6 +267,21 @@ public class SodDiscountCalculator
 		System.out.printf("%-38s%1s%10.2f\n","Your total cost is:","$",totalCost);
 		System.out.printf("\n____________________________________________________________\n");
 	}//END OF ITEM RECIEPT METHOD
+
+	//CUSTOMER REPORT
+	public static void customerReport(int howMany, int itemACount, int itemBCount, int itemCCount, double customerTotal)
+	{
+		System.out.printf("\n************************************************************\n");
+		System.out.printf("%30s\n","CUSTOMER REPORT");
+		System.out.printf("%-30s%10d\n","The total amount of item A that was sold is:", itemACount);
+		System.out.printf("\n____________________________________________________________\n");
+		System.out.printf("%-30s%10d\n","The total amount of item B that was sold is:", itemBCount);
+		System.out.printf("\n____________________________________________________________\n");
+		System.out.printf("%-30s%10d\n","The total amount of item C that was sold is:", itemCCount);
+		System.out.printf("\n____________________________________________________________\n");
+		System.out.printf("%-30s%10.2f\n","The Customer Total is:", customerTotal);
+		System.out.printf("\n____________________________________________________________\n");
+	}
 
 	//FINAL REPORT
 	public static void displayFinalReport(int memberCount, int seniorCount, int noDiscountCount, double grandTotal)
@@ -263,6 +304,5 @@ public class SodDiscountCalculator
 		System.out.println("\nThank you for choosing Zod Enterprises.");
 		System.out.println("\nHave a Great Day!");
 	}//END OF FAREWELL BANNER
-
 
 }//END OF CLASS
