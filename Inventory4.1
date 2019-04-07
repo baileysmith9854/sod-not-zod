@@ -1,0 +1,96 @@
+package edu.CPT187.Smith.Exercise4;
+
+//AUTHOR: BAILEY SMITH
+//COURSE: CPT187
+//PURPOSE: A PRACTICE EXERCISE
+//STARTDATE: APRIL 3, 2019
+//FILENAME: Inventory
+
+public class Inventory 
+{
+	//FINAL ARRAYS
+	private final String[] ITEM_NAMES = {"Premium Sod","Special Sod","Basic Sod"};
+	private final double[] ITEM_PRICES = {9.95,5.95,1.95};
+	private final String[] DISC_NAMES = {"Member","Senior","None"};
+	private final double[] DISC_RATES = {.25,.15,.0};
+	private final String[] PRIZE_NAMES = {"Mini Toolkit","Mini Powerbank","Keychain Flashdrive","Gift Card"};
+	private final int[] ARRAY_SIZES = {ITEM_NAMES.length, PRIZE_NAMES.length};
+
+	//ARRAYS
+	private int[] itemInStockCounts = new int[ARRAY_SIZES[0]];
+
+	//Set Behaviors
+
+	//Sets the reduced stock based on howMany
+	public void setReduceStock(String borrowedHowMany, int borrowedIndex)
+	{
+		int localHowManyInt = 0;
+		localHowManyInt = Integer.parseInt(borrowedHowMany);
+
+		if(borrowedIndex == 0)
+		{
+			itemInStockCounts[0] = itemInStockCounts[0] - localHowManyInt;
+		}
+
+		else if(borrowedIndex == 1)
+		{
+			itemInStockCounts[1] = itemInStockCounts[1] - localHowManyInt;
+		}
+
+		else
+		{
+			itemInStockCounts[2] = itemInStockCounts[2] - localHowManyInt;
+		}
+	}
+
+	//Sets the items in stock to ARRAY_SIZE
+	public void setItemInStockCounts()
+	{
+		itemInStockCounts[0] = ARRAY_SIZES[0];
+		itemInStockCounts[1] = ARRAY_SIZES[0];
+		itemInStockCounts[2] = ARRAY_SIZES[0];
+	}
+
+	//END OF SET BEHAVIORS
+
+	//Get Behaviors
+
+	//Gets Items in stock Counts
+	public int[] getItemInStockCounts()
+	{
+		return itemInStockCounts;
+	}
+
+	//Gets item names
+	public String[] getItemNames()
+	{
+		return ITEM_NAMES;
+	}
+
+	//Gets item prices
+	public double[] getItemPrices()
+	{
+		return ITEM_PRICES;
+	}
+
+	//Gets Disc Names
+	public String[] getDiscNames()
+	{
+		return DISC_NAMES;
+	}
+
+	//Gets disc Rates
+	public double[] getDiscRates()
+	{
+		return DISC_RATES;
+	}
+
+	//Gets prize names
+	public String[] getPrizeNames()
+	{
+		return PRIZE_NAMES;
+	}
+
+	//END OF GET BEHAVIORS
+
+}

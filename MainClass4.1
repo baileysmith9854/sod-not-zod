@@ -1,31 +1,33 @@
-package edu.CPT187.Smith.Exercise3;
+package edu.CPT187.Smith.Exercise4;
 
 //AUTHOR: BAILEY SMITH
 //COURSE: CPT187
 //PURPOSE: A PRACTICE EXERCISE
-//STARTDATE: MARCH 20, 2019
-//FILENAME: MainClass
+//STARTDATE: APRIL 3, 2019
+//FILENAME: MIAN CLASS
 
 import java.util.Scanner;
 
 public class MainClass 
 {
 	//CONSTANTS
-	private static final double TAX_RATE = .075;
-	private static final String MAIN_OPT_ONE = "Create an Order";
-	private static final String MAIN_OPT_TWO = "Quit the program";
-
-	//VARIABLES
-	private static String userName = "";
-	private static char menuSelection = ' ';
+	public static final double TAX_RATE = .075;
+	public static final String MAIN_OPT_ONE = "Create an Inventory";
+	public static final String MAIN_OPT_TWO = "Order Sod";
+	public static final String MAIN_OPT_THREE = "Quit the program";
 
 	public static void main(String[] args) 
 	{
+		//VARIABLES
+		String userName = "";
+		char menuSelection = ' ';
+
 		//DECLARE ALL INPUT MODULES
 		Scanner input = new Scanner(System.in);
 
 		//CONSTRUCTOR
 		SodOrder mySodOrder = new SodOrder(TAX_RATE);
+		Inventory myInventory = new Inventory();
 
 		//WELCOME BANNER
 		WelcomeBanner();
@@ -39,35 +41,55 @@ public class MainClass
 		//WHILE NOT 'Q'
 		while(menuSelection != 'Q')
 		{
-			//ITEM SELECTION
-			mySodOrder.setItemSelection(itemMenuValidation(input, mySodOrder.getItemNames(), mySodOrder.getItemPrices()));
+			if(menuSelection == 'A')
+			{
+				myInventory.setItemInStockCounts();
+			}//SET ITEM STOCK
 
-			//HOW MANY
-			mySodOrder.setHowMany(howManyValidation(input));
+			else
+			{
+				mySodOrder.setItemSelection(itemMenuValidation(input, myInventory.getItemNames(), myInventory.getItemPrices()), myInventory.getItemNames(), myInventory.getItemPrices());
+				mySodOrder.setHowMany(howManyValidation(input));
 
-			//DISCOUNT SELECTION
-			mySodOrder.setDiscType(discMenuValidation(input, mySodOrder.getDiscNames(), mySodOrder.getDiscRates()));
+				if(mySodOrder.getInStockFlag(myInventory.getItemInStockCounts()) == true)
+				{	
+					outOfStockError();
+				}//ITEM NOT IN STOCK
 
-			//PRIZE SELECTION
-			mySodOrder.setPrizeName();
+				else
+				{
+					mySodOrder.setDecreaseInStock(myInventory);
+					mySodOrder.setPrizeName(myInventory.getPrizeNames());
+					mySodOrder.setDiscType(discMenuValidation(input, myInventory.getDiscNames(), myInventory.getDiscRates()) ,myInventory.getDiscNames(), myInventory.getDiscRates());
 
-			//ITEM RECIEPT
-			itemReciept(mySodOrder.getItemName(), mySodOrder.getItemPrice(), mySodOrder.getHowMany(), mySodOrder.getDiscName(), mySodOrder.getDiscRate(), mySodOrder.getDiscAmt(), mySodOrder.getDiscPrice(),  mySodOrder.getSubTotal(), mySodOrder.getTaxRate(), mySodOrder.getTaxAmt(), mySodOrder.getTotalCost(), mySodOrder.getPrizeName());
+					if(mySodOrder.getDiscAmt() > 0.0)
+					{
+						itemReciept(userName, mySodOrder.getItemName(), mySodOrder.getItemPrice(), mySodOrder.getHowMany(), mySodOrder.getDiscName(), mySodOrder.getDiscRate(), mySodOrder.getDiscAmt(), mySodOrder.getDiscPrice(),  mySodOrder.getSubTotal(), mySodOrder.getTaxRate(), mySodOrder.getTaxAmt(), mySodOrder.getTotalCost(), mySodOrder.getPrizeName());
+					}//ITEM RECIEPT WITH DISC
 
-			//MODIFY LCV
+					else
+					{
+						itemReciept(userName, mySodOrder.getItemName(), mySodOrder.getItemPrice(), mySodOrder.getHowMany(), mySodOrder.getSubTotal(), mySodOrder.getTaxRate(), mySodOrder.getTaxAmt(), mySodOrder.getTotalCost(), mySodOrder.getPrizeName());
+					}//ITEM RECIEPT W/O DISC
+
+				}//ITEM IN STOCK
+
+			}//ORDER SOD
+
+			//MAIN MENU
 			menuSelection = mainMenuValidation(input);
-		}//END OF WHILE
 
+		}//END OF RUN WHILE 'Q'
 
 		if(mySodOrder.getTotalCost() > 0.0)
 		{
-			finalReport(mySodOrder.getDiscCounts() ,mySodOrder.getItemCounts(), mySodOrder.getPrizeCounts());
-		}
+			finalReport(mySodOrder.getDiscCounts() ,mySodOrder.getItemCounts(), mySodOrder.getPrizeCounts(), myInventory.getItemInStockCounts());
+		}//DISPLAY FINAL REPORT
 
+		//DISPLAY FAREWELL BANNER
 		farewellBanner();
 
-		input.close();
-	}//END OF MAIN METHOD
+	}//END OF MAIN METHOD 
 
 	//WELCOME BANNER
 	public static void WelcomeBanner()
@@ -92,7 +114,8 @@ public class MainClass
 		System.out.printf("\n------------------------------------------------------------\n");
 		System.out.printf("%30s\n","MAIN MENU");
 		System.out.printf("%-15s%-15s\n","[A] to ", MAIN_OPT_ONE);
-		System.out.printf("%-15s%-15s\n","[Q] to ", MAIN_OPT_TWO);
+		System.out.printf("%-15s%-15s\n","[B] to ", MAIN_OPT_TWO);
+		System.out.printf("%-15s%-15s\n","[Q] to ", MAIN_OPT_THREE);
 	}
 
 	//MAIN MENU VALIDATION
@@ -104,7 +127,7 @@ public class MainClass
 		System.out.printf("\n------------------------------------------------------------");
 		System.out.printf("\n");
 
-		while(localMenuSelection !='A' && localMenuSelection !='Q')
+		while(localMenuSelection !='A' && localMenuSelection !='B' && localMenuSelection !='Q')
 		{
 			System.out.printf("%30s","INVALID SELECTION");
 			System.out.printf("\n------------------------------------------------------------\n");
@@ -169,6 +192,14 @@ public class MainClass
 		return localHowMany;
 	}
 
+	public static void outOfStockError()
+	{
+		System.out.println("************************************************************");
+		System.out.println("ERROR!!!");
+		System.out.println("NOT ENOUGH STOCK FOR SELECTED ITEM.");
+		System.out.println("------------------------------------------------------------");
+	}
+
 	//DISCOUNT MENU
 	public static void discMenu(String[] borrowedDiscNames, double[] borrowedDiscRates)
 	{
@@ -200,10 +231,10 @@ public class MainClass
 	}
 
 	//ITEM RECEIPT
-	public static void itemReciept(String borrowedItemName, double borrowedItemPrice, String borrowedHowMany, String borrowedDiscountName, double borrowedDiscountRate, double borrowedDiscountAmt, double borrowedDiscountPrice, double borrowedSubTotal, double borrowedTaxRate, double borrowedTaxAmt, double borrowedTotalCost, String borrowedPrizeName)
+	public static void itemReciept(String borrowedUserName, String borrowedItemName, double borrowedItemPrice, String borrowedHowMany, String borrowedDiscountName, double borrowedDiscountRate, double borrowedDiscountAmt, double borrowedDiscountPrice, double borrowedSubTotal, double borrowedTaxRate, double borrowedTaxAmt, double borrowedTotalCost, String borrowedPrizeName)
 	{
 		System.out.printf("\n************************************************************");
-		System.out.printf("\nThank you " +userName+ " for planning a trip with us.");
+		System.out.printf("\nThank you " +borrowedUserName+ " for buying sod with us.");
 		System.out.printf("\n");
 		System.out.printf("\nYour Reciept will be printed below.");
 		System.out.printf("\n____________________________________________________________\n");
@@ -225,8 +256,29 @@ public class MainClass
 		System.out.printf("%-35s%-30s\n","THE PRIZE YOU GET IS:",borrowedPrizeName);
 	}//END OF ITEM RECEIPT
 
+	//OVERLOADED ITEM RECEIPT
+	public static void itemReciept(String borrowedUserName, String borrowedItemName, double borrowedItemPrice, String borrowedHowMany, double borrowedSubTotal, double borrowedTaxRate, double borrowedTaxAmt, double borrowedTotalCost, String borrowedPrizeName)
+	{
+		System.out.printf("\n************************************************************");
+		System.out.printf("\nThank you " +borrowedUserName+ " for buying sod with us.");
+		System.out.printf("\n");
+		System.out.printf("\nYour Reciept will be printed below.");
+		System.out.printf("\n____________________________________________________________\n");
+		System.out.printf("%-35s%-35s\n","The item name is:",borrowedItemName);
+		System.out.printf("%-35s%1s%-10.2f\n","The item name is:","$",borrowedItemPrice);
+		System.out.printf("\n____________________________________________________________\n");
+		System.out.printf("%-15s%10s%15s\n","You bought: ",borrowedHowMany," bags of sod.");
+		System.out.printf("\n____________________________________________________________\n");
+		System.out.printf("%-35s%1s%-10.2f\n","The subtotal is:","$",borrowedSubTotal);
+		System.out.printf("%-35s%1s%-10.2f\n","The tax rate is:","%",borrowedTaxRate);
+		System.out.printf("%-35s%1s%-10.2f\n","The tax amount is:","$",borrowedTaxAmt);
+		System.out.printf("%-35s%1s%-10.2f\n","The total cost is:","$",borrowedTotalCost);
+		System.out.printf("\n************************************************************\n");
+		System.out.printf("%-35s%-30s\n","THE PRIZE YOU GET IS:",borrowedPrizeName);
+	}//END OF ITEM RECEIPT
+
 	//FINAL REPORT
-	public static void finalReport(int[] borrowedDiscountCounts, int[] borrowedItemCounts, int[] borrowedPrizeCounts)
+	public static void finalReport(int[] borrowedDiscountCounts, int[] borrowedItemCounts, int[] borrowedPrizeCounts, int[] borrowedItemInStockCounts)
 	{
 		System.out.printf("\n************************************************************");
 		System.out.printf("\n%30s","FINAL REPORT");
@@ -242,6 +294,10 @@ public class MainClass
 		System.out.printf("\n%-30s%20d", "Prize 2 Count:", borrowedPrizeCounts[1]);
 		System.out.printf("\n%-30s%20d", "Prize 3 Count:", borrowedPrizeCounts[2]);
 		System.out.printf("\n%-30s%20d", "Prize 4 Count:", borrowedPrizeCounts[3]);
+		System.out.printf("\n____________________________________________________________\n");
+		System.out.printf("\n%-30s%20d", "Item 1 Stock", borrowedItemInStockCounts[0]);
+		System.out.printf("\n%-30s%20d", "Item 2 Stock", borrowedItemInStockCounts[1]);
+		System.out.printf("\n%-30s%20d", "Item 3 Stock", borrowedItemInStockCounts[2]);
 	}
 
 	//DISPLAY FAREWELL BANNER
@@ -251,8 +307,5 @@ public class MainClass
 		System.out.printf("Thank you for choosing Zod Enterprizes.");
 		System.out.printf("\nWe hope to see you again.");
 	}
-
-
-
 
 }//END OF MAIN CLASS
