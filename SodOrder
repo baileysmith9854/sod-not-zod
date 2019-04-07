@@ -1,0 +1,211 @@
+package edu.CPT187.Smith.Exercise1;
+
+public class SodOrder
+{
+	//CONSTANTS
+	private final static String ITEM_NAME_PREMIUM = "Premium Sod";
+	private final static String ITEM_NAME_SPECIAL = "Special Sod";
+	private final static String ITEM_NAME_BASIC = "Basic Sod";
+	private String itemName = "";
+	private final static double ITEM_PRICE_PREMIUM = 9.95;
+	private final static double ITEM_PRICE_SPECIAL = 5.95;
+	private final static double ITEM_PRICE_BASIC = 1.95;
+	private double itemPrice = 0.0;
+	private final static double DISC_RATE_MEMBER = .25;
+	private final static double DISC_RATE_SENIOR = .15;
+	private final static double DISC_RATE_NONE = .0;
+	private double discRate = 0.0;
+	private double discAmt = 0.0;
+	private double discPrice = 0.0;
+	private int howMany = 0;
+	private double taxRate = 0.0;
+	private double subTotal = 0.0;
+	private double taxAmt = 0.0;
+	private double totalCost = 0.0;
+
+
+	SodOrder(double tempTaxRate)
+	{
+		taxRate = tempTaxRate;
+	}//END OF SOD ORDER METHOD
+
+	public void setItemName(char tempMenuSelection)
+	{
+		if(tempMenuSelection == 'A')
+		{
+			itemName = ITEM_NAME_PREMIUM;
+		}
+
+		else if (tempMenuSelection == 'B')
+		{
+			itemName = ITEM_NAME_SPECIAL;
+		}
+
+		else
+		{
+			itemName = ITEM_NAME_BASIC;
+		}
+	}
+
+	public void setItemPrice(char tempMenuSelection)
+	{
+		if(tempMenuSelection == 'A')
+		{
+			itemPrice = ITEM_PRICE_PREMIUM;
+		}
+
+		else if (tempMenuSelection == 'B')
+		{
+			itemPrice = ITEM_PRICE_SPECIAL;
+		}
+
+		else
+		{
+			itemPrice = ITEM_PRICE_BASIC;
+		}
+	}
+
+	public void setHowMany(int tempHowMany)
+	{
+		howMany = tempHowMany;
+	}
+
+	public void setDiscRate(char tempMenuSelection)
+	{
+		if(tempMenuSelection == 'A')
+		{
+			discRate = DISC_RATE_MEMBER;
+		}
+
+		else if (tempMenuSelection == 'B')
+		{
+			discRate = DISC_RATE_SENIOR;
+		}
+
+		else
+		{
+			discRate = DISC_RATE_NONE;
+		}
+	}
+
+	public void setDiscAmt()
+	{
+		discAmt = itemPrice * discRate;
+	}
+
+	public void setDiscPrice()
+	{
+		discPrice = itemPrice - discAmt;
+	}
+
+	public void setSubTotal()
+	{
+		subTotal = howMany * discPrice;
+	}
+
+	public void setTaxAmt()
+	{
+		taxAmt = subTotal * taxRate;
+	}
+	
+	public void setTotalCost()
+	{
+		totalCost = subTotal + taxAmt;
+	}
+
+	public String getItemName()
+	{
+		return itemName;
+	}
+
+	public double getItemPrice()
+	{
+		return itemPrice;
+	}
+
+	public double getHowMany()
+	{
+		return howMany;
+	}
+
+	public double getDiscRate()
+	{
+		return discRate;
+	}
+
+	public double getDiscAmt()
+	{
+		return discAmt;
+	}
+
+	public double getDiscPrice()
+	{
+		return discPrice;
+	}
+
+	public double getSubTotal()
+	{
+		return subTotal;
+	}
+
+	public double getTaxRate()
+	{
+		return taxRate;
+	}
+
+	public double getTaxAmt()
+	{
+		return taxAmt;
+	}
+	
+	public double getTotalCost()
+	{
+		return totalCost;
+	}
+
+	public String getItemPremium()
+	{
+		return ITEM_NAME_PREMIUM;
+	}
+	
+	public String getItemSpecial()
+	{
+		return ITEM_NAME_SPECIAL;
+	}
+	
+	public String getItemBasic()
+	{
+		return ITEM_NAME_BASIC;
+	}
+	
+	public double getItemPricePremium()
+	{
+		return ITEM_PRICE_PREMIUM;
+	}
+	
+	public double getItemPriceSpecial()
+	{
+		return ITEM_PRICE_SPECIAL;
+	}
+	
+	public double getItemPriceBasic()
+	{
+		return ITEM_PRICE_BASIC;
+	}
+	
+	public double getDiscMember()
+	{
+		return DISC_RATE_MEMBER;
+	}
+	
+	public double getDiscSenior()
+	{
+		return DISC_RATE_SENIOR;
+	}
+	
+	public double getDiscNone()
+	{
+		return DISC_RATE_NONE;
+	}
+	
+}//END OF SOD ORDER CLASS
