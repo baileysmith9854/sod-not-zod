@@ -1,0 +1,215 @@
+package edu.CPT187.Smith.Exersice2;
+
+//AUTHOR: BAILEY SMITH
+//COURSE: CPT187
+//PURPOSE: A PRACTICE EXERCISE
+//STARTDATE: MARCH 20, 2019
+//FILENAME: SodOrder
+
+public class SodOrder 
+{
+	//PRE_LOADED ARRAYS
+	private static final String[] ITEM_NAMES = {"Premium Sod","Special Sod","Basic Sod"};
+	private static final double[] ITEM_PRICES = {9.95,5.95,1.95};
+	private static final String[] DISC_NAMES = {"Member","Senior","None"};
+	private static final double[] DISC_RATES = {.25,.15,.0};
+	
+	//ARRAYS
+	private static int[] itemCounts = {0,0,0};
+	private static int[] discCounts = {0,0,0};
+	
+	//VARIABLES
+	private char itemSelection = ' ';
+	private char discType = ' ';
+	private String itemName = "";
+	private double itemPrice = 0.0;
+	private String discName = "";
+	private double discRate = 0.0;
+	private int howMany = 0;	
+	private double taxRate = 0.0;
+	
+	SodOrder(double tempTaxRate)
+	{
+		taxRate = tempTaxRate;
+	}//END OF SOD ORDER METHOD
+
+	public void setItemSelection(char tempItemSelection)
+	{
+		itemSelection = tempItemSelection;
+	}
+	
+	public void setItemName()
+	{
+		if(itemSelection == 'A')
+		{
+			itemName = ITEM_NAMES[0];
+			itemCounts[0] = itemCounts[0] +1;
+		}
+
+		else if (itemSelection == 'B')
+		{
+			itemName = ITEM_NAMES[1];
+			itemCounts[1] = itemCounts[1] +1;
+		}
+
+		else
+		{
+			itemName = ITEM_NAMES[2];
+			itemCounts[2] = itemCounts[2] +1;
+		}
+	}
+
+	public void setItemPrice()
+	{
+		if(itemSelection == 'A')
+		{
+			itemPrice = ITEM_PRICES[0];
+		}
+
+		else if (itemSelection == 'B')
+		{
+			itemPrice = ITEM_PRICES[1];
+		}
+
+		else
+		{
+			itemPrice = ITEM_PRICES[2];
+		}
+	}
+
+	public void setHowMany(int tempHowMany)
+	{
+		howMany = tempHowMany;
+	}
+	
+	public void setDiscType(char tempDiscSelection)
+	{
+		discType = tempDiscSelection;
+	}
+	
+	public void setDiscName()
+	{
+		if(discType == 'A')
+		{
+			discName = DISC_NAMES[0];
+			discCounts[0] = discCounts[0] + 1;
+		}
+
+		else if (discType == 'B')
+		{
+			discName = DISC_NAMES[1];
+			discCounts[1] = discCounts[1] + 1;
+		}
+
+		else
+		{
+			discName = DISC_NAMES[2];
+			discCounts[2] = discCounts[2] + 1;
+		}
+	}
+
+	public void setDiscRate()
+	{
+		if(discType == 'A')
+		{
+			discRate = DISC_RATES[0];
+		}
+
+		else if (discType == 'B')
+		{
+			discRate = DISC_RATES[1];
+		}
+
+		else
+		{
+			discRate = DISC_RATES[2];
+		}
+	}
+	
+	public String getItemName()
+	{
+		return itemName;
+	}
+
+	public double getItemPrice()
+	{
+		return itemPrice;
+	}
+
+	public int getHowMany()
+	{
+		return howMany;
+	}
+	
+	public String getDiscName()
+	{
+		return discName;
+	}
+	
+	public double getDiscRate()
+	{
+		return discRate;
+	}
+	
+	public double getDiscAmt()
+	{
+		return itemPrice * discRate;
+	}
+	
+	public double getDiscPrice()
+	{
+		return itemPrice - getDiscAmt();
+	}
+	
+	public double getSubTotal()
+	{
+		return howMany * getDiscPrice();
+	}
+	
+	public double getTaxRate()
+	{
+		return taxRate;
+	}
+	
+	public double getTaxAmt()
+	{
+		return getSubTotal() * taxRate;
+	}
+	
+	public double getTotalCost()
+	{
+		return getSubTotal() + getTaxAmt();
+	}
+	
+	public String[] getItemNames()
+	{
+		return ITEM_NAMES;
+	}
+	
+	public double[] getItemPrices()
+	{
+		return ITEM_PRICES;
+	}
+	
+	public String[] getDiscNames()
+	{
+		return DISC_NAMES;
+		
+	}
+	
+	public double[] getDiscRates()
+	{
+		return DISC_RATES;
+	}
+	
+	public int[] getItemCounts()
+	{
+		return itemCounts;
+	}
+	
+	public int[] getDiscCounts()
+	{
+		return discCounts;
+	}
+	
+}//END OF SOD ORDER CLASS
