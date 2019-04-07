@@ -1,0 +1,325 @@
+package edu.CPT187.Smith.Exercise4;
+
+//AUTHOR: BAILEY SMITH
+//COURSE: CPT187
+//PURPOSE: A PRACTICE EXERCISE
+//STARTDATE: APRIL 3, 2019
+//FILENAME: SodOrder
+
+import java.util.Random;
+
+public class SodOrder 
+{
+	Random prizeGenerator = new Random();
+
+	//ARRAYS
+	private static int[] itemCounts;
+	private static int[] discCounts;
+	private static int[] prizeCounts;
+
+	//VARIABLES
+	private char itemSelection = ' ';
+	private char discType = ' ';
+	private String itemName = "";
+	private double itemPrice = 0.0;
+	private String discName = "";
+	private double discRate = 0.0;
+	private String howMany = "";	
+	private double taxRate = 0.0;
+	private String prizeName = "";
+	private int lastItem = 0;
+
+	//Non-Default Constructor
+
+	SodOrder(double tempTaxRate)
+	{
+		taxRate = tempTaxRate;
+	}//END OF SOD ORDER METHOD
+
+	//Set Behaviors
+
+	public void setItemSelection(char tempItemSelection, String[] borrowedItemNames, double[] borrowedItemPrices)
+	{
+		itemSelection = tempItemSelection;
+		setItemName(borrowedItemNames);
+		setItemPrice(borrowedItemPrices);
+	}
+
+	public void setItemName(String[] borrowedItemNames)
+	{
+		itemCounts = new int[borrowedItemNames.length];
+
+		if(itemSelection == 'A')
+		{
+			itemName = borrowedItemNames[0];
+			itemCounts[0]++;
+		}
+
+		else if (itemSelection == 'B')
+		{
+			itemName = borrowedItemNames[1];
+			itemCounts[1]++;
+		}
+
+		else
+		{
+			itemName = borrowedItemNames[2];
+			itemCounts[2]++;
+		}
+
+	}
+
+	public void setItemPrice(double[] borrowedItemPrices)
+	{
+		if(itemSelection == 'A')
+		{
+			itemPrice = borrowedItemPrices[0];
+		}
+
+		else if (itemSelection == 'B')
+		{
+			itemPrice = borrowedItemPrices[1];
+		}
+
+		else
+		{
+			itemPrice = borrowedItemPrices[2];
+		}
+	}
+
+	public void setHowMany(String tempHowMany)
+	{
+		howMany = tempHowMany;
+	}
+
+	public void setDiscType(char tempDiscSelection, String[] borrowedDiscNames, double[] borrowedDiscRates)
+	{
+		discType = tempDiscSelection;
+		setDiscName(borrowedDiscNames);
+		setDiscRate(borrowedDiscRates);
+	}
+
+	public void setDiscName(String[] borrowedDiscNames)
+	{
+		discCounts = new int[borrowedDiscNames.length];
+
+		if(discType == 'A')
+		{
+			discName = borrowedDiscNames[0];
+			discCounts[0]++;
+		}
+
+		else if (discType == 'B')
+		{
+			discName = borrowedDiscNames[1];
+			discCounts[1]++;
+		}
+
+		else
+		{
+			discName = borrowedDiscNames[2];
+			discCounts[2]++;
+		}
+	}
+
+	public void setDiscRate(double[] borrowedDiscRates)
+	{
+		if(discType == 'A')
+		{
+			discRate = borrowedDiscRates[0];
+		}
+
+		else if (discType == 'B')
+		{
+			discRate = borrowedDiscRates[1];
+		}
+
+		else
+		{
+			discRate = borrowedDiscRates[2];
+		}
+	}
+
+	public void setPrizeName(String[] borrowedPrizeNames)
+	{
+		prizeCounts = new int[borrowedPrizeNames.length];
+
+		if(getRandomNumber(borrowedPrizeNames) == 0)
+		{
+			prizeName = borrowedPrizeNames[0];
+			prizeCounts[0] ++;
+		}
+
+		else if(getRandomNumber(borrowedPrizeNames) == 1)
+		{
+			prizeName = borrowedPrizeNames[1];
+			prizeCounts[1] ++;
+		}
+
+		else if(getRandomNumber(borrowedPrizeNames) == 2)
+		{
+			prizeName = borrowedPrizeNames[2];
+			prizeCounts[2] ++;
+		}
+
+		else
+		{	
+			prizeName = borrowedPrizeNames[3];
+			prizeCounts[3] ++;
+		}
+	}
+
+	public void setDecreaseInStock(Inventory borrowedInventoryObject)
+	{
+		if (itemSelection == 'A')
+		{
+			lastItem = 0;
+		}
+
+		else if(itemSelection == 'B')
+		{
+			lastItem = 1;
+		}
+
+		else
+		{
+			lastItem = 2;
+		}
+
+		borrowedInventoryObject.setReduceStock(howMany, lastItem);
+
+	}
+
+	//END OF SET BEHAVIORS
+
+	//Get Behaviors
+
+	public boolean getInStockFlag(int[] borrowedItemInStockCounts)
+	{		
+		boolean inStock=false;
+
+		if(itemSelection == 'A')
+		{
+			if(Integer.parseInt(howMany) > borrowedItemInStockCounts[0])
+			{
+				inStock = true;
+			}
+
+			else
+			{
+				inStock=false;
+			}
+		}
+
+		else if(itemSelection == 'B')
+		{
+			if(Integer.parseInt(howMany) > borrowedItemInStockCounts[1])
+			{
+				inStock = true;
+			}
+
+			else
+			{
+				inStock=false;
+			}
+		}
+
+		else
+		{
+			if(Integer.parseInt(howMany) > borrowedItemInStockCounts[2])
+			{
+				inStock = true;
+			}
+
+			else
+			{
+				inStock=false;
+			}
+		}
+
+		return inStock;
+	}
+
+	public String getItemName()
+	{
+		return itemName;
+	}
+
+	public double getItemPrice()
+	{
+		return itemPrice;
+	}
+
+	public String getHowMany()
+	{
+		return howMany;
+	}
+
+	public String getDiscName()
+	{
+		return discName;
+	}
+
+	public double getDiscRate()
+	{
+		return discRate;
+	}
+
+	public double getDiscAmt()
+	{
+		return itemPrice * discRate;
+	}
+
+	public double getDiscPrice()
+	{
+		return itemPrice - getDiscAmt();
+	}
+
+	public double getSubTotal()
+	{
+		return Integer.parseInt(howMany) * getDiscPrice();
+	}
+
+	public double getTaxRate()
+	{
+		return taxRate;
+	}
+
+	public double getTaxAmt()
+	{
+		return getSubTotal() * taxRate;
+	}
+
+	public double getTotalCost()
+	{
+		return getSubTotal() + getTaxAmt();
+	}
+
+	public int[] getItemCounts()
+	{
+		return itemCounts;
+	}
+
+	public int[] getDiscCounts()
+	{
+		return discCounts;
+	}
+
+	public int[] getPrizeCounts()
+	{
+		return prizeCounts;
+	}
+
+	public String getPrizeName()
+	{
+		return prizeName;
+	}
+
+	public int getRandomNumber(String[] borrowedPrizeNames)
+	{
+		return prizeGenerator.nextInt(borrowedPrizeNames.length);
+	}
+
+	//END OF GET BEHAVIORS
+
+}//END OF SOD ORDER CLASS
