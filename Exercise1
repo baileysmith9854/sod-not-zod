@@ -1,0 +1,49 @@
+package edu.cpt167.Smith.ParticipationExercise1;
+
+//AUTHOR: BAILEY SMITH
+//COURSE: CPT167
+//PURPOSE: A PRACTICE EXERCISE
+//STARTDATE: JANUARY 16, 2019
+
+import java.util.Scanner;
+
+public class SodPriceCalculator 
+{
+	public static void main(String[] args) {
+		//DECLARE ALL INPUT MODULES
+		Scanner input = new Scanner(System.in);
+		//DECLARE ALL VARS AND CONSTANTS
+		//FROM THE DATA DICTIONARY
+		final double DISCOUNT_RATE = .25;
+		String sodType = "";
+		double originalPrice = 0.0;
+		String userName = "";
+		int howMany = 0;
+		
+		
+		System.out.println("Welcome to Zod Enterprises.");
+		System.out.println("Where we sell quality sod for a low price!");
+		
+		System.out.println("Please input your name now.");
+		userName = input.nextLine();
+		
+		System.out.println("What is the name of the sod you want to purchase?");
+		sodType = input.nextLine();
+		
+		System.out.println("What is the ORIGINAL price of ONE bag of sod?");
+		originalPrice = input.nextDouble();
+		
+		System.out.println("How many pallets would you like to purchase?");
+		howMany = input.nextInt();
+		
+		System.out.println("Your total is: $" +originalPrice * +howMany);
+		//FOR TESTING POURPOSES ONLY!! REMOVE BEFORE SUBMITTING!!
+		
+		input.close();
+		
+		System.out.println("Thank you for choosing Zod Enterprises.");
+		System.out.println("Have a Great Day!");
+		
+	}//END OF MAIN METHOD
+	
+}//END OF CLASS
