@@ -1,0 +1,207 @@
+package edu.cpt167.Smith.ParticipationExersice4;
+//AUTHOR: BAILEY SMITH
+//COURSE: CPT167
+//PURPOSE: A PRACTICE EXERCISE
+//STARTDATE: FEBUARY 6, 2019
+//FILENAME: SOD DISCOUNT AND PRICE CALCULATOR
+
+import java.util.Scanner;
+
+public class SodDiscountAndPriceCalculator 
+{
+
+	public static void main(String[] args) 
+	{
+		//DECLARE ALL INPUT MODULES
+		Scanner input = new Scanner(System.in);
+		
+		//DECLARE ALL VARS AND CONSTANTS
+		//FROM THE DATA DICTIONARY
+		
+		//CONSTANTS
+		final double DISCOUNT_RATE_MEMBER = .15;
+		final double DISCOUNT_RATE_SENIOR = .25;
+		final double DISCOUNT_RATE_NONE = 0.0;
+		final double TAX_RATE = .075;
+		final String NAME_PREMIUM = "Astro Turf";
+		final double PRICE_PREMIUM = 2.1;
+		final String NAME_SPECIAL = "SC Rye";
+		final double PRICE_SPECIAL = 1.5;
+		final String NAME_BASIC = "Kentucky Bluegrass";
+		final double PRICE_BASIC = .65;
+		
+		//VARIABLES
+		String userName = "";//USER INPUT
+		String itemName = "";//CALCULATE
+		char menuSelection = ' ';//USER INPUT
+		char itemSelection = ' ';//USER INPUT
+		double discountAmount = 0.0;//CALCULATE
+		double discountPrice = 0.0;//CALCULATE
+		double discountRate = 0.0;//CALCULATE
+		double subTotal = 0.0;//CALCULATE
+		double tax = 0.0;//CALCULATE
+		double totalCost = 0.0;//CALCULATE
+		double itemPrice =0.0;//CALCULATE
+		int howMany = 0;//CALCULATE
+		
+		//WELCOME BANNER
+		System.out.println("Welcome to Zod Enterprises.");
+		System.out.println("Where we sell quality sod for a low price!");
+		System.out.println("\n------------------------------------------------------------");
+		
+		//USER INPUT STARTS NOW
+		System.out.println("\nPlease input your name now.");
+		userName = input.nextLine();
+		
+		System.out.printf("\n------------------------------------------------------------\n");
+		System.out.printf("%30s\n","MAIN MENU");
+		System.out.printf("%-10s%-30s%1s%10.2f\n","A for","Member Discount","%",DISCOUNT_RATE_MEMBER*100);
+		System.out.printf("%-10s%-30s%1s%10.2f\n","B for","Senior Discount","%",DISCOUNT_RATE_SENIOR*100);
+		System.out.printf("%-10s%-30s%1s%10.2f\n","C for","No Discount","%",DISCOUNT_RATE_NONE*100);
+		System.out.printf("%-20s\n","Q to Quit the program");
+		System.out.println("Please input your selection now:");
+		menuSelection = input.next().toUpperCase().charAt(0);
+		System.out.printf("\n------------------------------------------------------------");
+		System.out.printf("\n");
+		
+		while(menuSelection !='A' && menuSelection !='B' && menuSelection !='C' && menuSelection !='Q')
+		{
+			System.out.printf("%30s","INVALID SELECTION");
+			System.out.printf("\n------------------------------------------------------------\n");
+			System.out.printf("%30s\n","MAIN MENU");
+			System.out.printf("%-10s%-30s%1s%10.2f\n","A for","Member Discount","%",DISCOUNT_RATE_MEMBER*100);
+			System.out.printf("%-10s%-30s%1s%10.2f\n","B for","Senior Discount","%",DISCOUNT_RATE_SENIOR*100);
+			System.out.printf("%-10s%-30s%1s%10.2f\n","C for","No Discount","%",DISCOUNT_RATE_NONE*100);
+			System.out.printf("%-20s\n","Q to Quit the program");
+			System.out.println("Please input your selection now:");
+			menuSelection = input.next().toUpperCase().charAt(0);
+			System.out.printf("\n------------------------------------------------------------");
+			System.out.printf("\n");
+		}
+		
+		while(menuSelection !='Q') 
+		{
+			System.out.printf("\n------------------------------------------------------------\n");
+			System.out.printf("%30s\n","ITEM SELECTION MENU");
+			System.out.printf("%-10s%-30s%1s%10.2f\n","[A] for",NAME_PREMIUM,"$",PRICE_PREMIUM);
+			System.out.printf("%-10s%-30s%1s%10.2f\n","[B] for",NAME_SPECIAL,"$",PRICE_SPECIAL);
+			System.out.printf("%-10s%-30s%1s%10.2f\n","[C] for",NAME_BASIC,"$",PRICE_BASIC);
+			System.out.println("Please input your selection now:");
+			itemSelection = input.next().toUpperCase().charAt(0);
+			System.out.printf("\n------------------------------------------------------------");
+			System.out.printf("\n");
+			
+			while(itemSelection !='A' && itemSelection !='B' && itemSelection !='C') 
+			{
+				System.out.printf("%30s","INVALID SELECTION");
+				System.out.printf("\n------------------------------------------------------------\n");
+				System.out.printf("%30s\n","ITEM SELECTION MENU");
+				System.out.printf("%-10s%-30s%1s%10.2f\n","[A] for",NAME_PREMIUM,"$",PRICE_PREMIUM);
+				System.out.printf("%-10s%-30s%1s%10.2f\n","[B] for",NAME_SPECIAL,"$",PRICE_SPECIAL);
+				System.out.printf("%-10s%-30s%1s%10.2f\n","[C] for",NAME_BASIC,"$",PRICE_BASIC);
+				System.out.println("Please input your selection now:");
+				itemSelection = input.next().toUpperCase().charAt(0);
+				System.out.printf("\n------------------------------------------------------------");
+				System.out.printf("\n");
+			}
+			
+			System.out.println("\nHow many pallets would you like to purchase?");
+			howMany = input.nextInt();
+			
+			if(menuSelection=='A') 
+			{
+				discountRate=DISCOUNT_RATE_MEMBER;
+			}
+			else if(menuSelection=='B') 
+			{
+				discountRate=DISCOUNT_RATE_SENIOR;
+			}
+			else 
+			{
+				discountRate=DISCOUNT_RATE_NONE;
+			}
+			//MENU SELECTION STRUCTURE
+			
+			if(itemSelection=='A') 
+			{
+				itemName=NAME_PREMIUM;
+				itemPrice=PRICE_PREMIUM;
+			}
+			else if(itemSelection=='B') 
+			{
+				itemName=NAME_SPECIAL;
+				itemPrice=PRICE_SPECIAL;
+			}
+			else
+			{
+				itemName=NAME_BASIC;
+				itemPrice=PRICE_BASIC;
+			}
+			//ITEM SELECTION STRUCTURE
+		
+			//BEGIN CALCULATIONS
+			discountAmount = itemPrice * discountRate;
+			discountPrice = itemPrice - discountAmount;
+			subTotal = howMany * discountPrice;
+			tax = subTotal * TAX_RATE;
+			totalCost = subTotal + tax;
+			//END OF CALCULATIONS
+		
+			if(totalCost>0) {
+				//DISPLAY WANTED CALCULATIONS
+				System.out.printf("\n************************************************************");
+				System.out.printf("\nThank you " +userName+ " for purchasing " +itemName);
+				System.out.printf("\n");
+				System.out.printf("%-10s%-1s%-10d%-14s\n","You bought","",howMany," bags of sod.");
+				System.out.printf("\nYour Reciept will be printed below.");
+				System.out.printf("\n____________________________________________________________\n");
+				System.out.printf("%-38s%1s%10.2f\n","The ORIGINAL price of the sod is:","$",itemPrice);
+				System.out.printf("\n____________________________________________________________\n");
+				System.out.printf("%-38s%1s%10.2f\n","The discount amount is:","$",discountAmount);
+				System.out.printf("\n____________________________________________________________\n");
+				System.out.printf("%-38s%1s%10.2f\n","The discounted price is:","$",discountPrice);
+				System.out.printf("\n____________________________________________________________\n");
+				System.out.printf("%-38s%1s%10.2f\n","Your subtotal is:","$",subTotal);
+				System.out.printf("\n____________________________________________________________\n");
+				System.out.printf("%-38s%1s%10.2f\n","The tax on your purchase is:","$",tax);
+				System.out.printf("\n____________________________________________________________\n");
+				System.out.printf("%-38s%1s%10.2f\n","Your total cost is:","$",totalCost);
+				System.out.printf("\n____________________________________________________________\n");
+			
+				}
+		
+			System.out.printf("\n------------------------------------------------------------\n");
+			System.out.printf("%30s\n","MAIN MENU");
+			System.out.printf("%-10s%-30s%1s%10.2f\n","A for","Member Discount","%",DISCOUNT_RATE_MEMBER*100);
+			System.out.printf("%-10s%-30s%1s%10.2f\n","B for","Senior Discount","%",DISCOUNT_RATE_SENIOR*100);
+			System.out.printf("%-10s%-30s%1s%10.2f\n","C for","No Discount","%",DISCOUNT_RATE_NONE*100);
+			System.out.printf("%-20s\n","Q to Quit the program");
+			System.out.println("Please input your selection now:");
+			menuSelection = input.next().toUpperCase().charAt(0);
+			System.out.printf("\n------------------------------------------------------------");
+			System.out.printf("\n");
+		
+			while(menuSelection !='A' && menuSelection !='B' && menuSelection !='C' && menuSelection !='Q')
+				{
+					System.out.printf("%30s","INVALID SELECTION");
+					System.out.printf("\n------------------------------------------------------------\n");
+					System.out.printf("%30s\n","MAIN MENU");
+					System.out.printf("%-10s%-30s%1s%10.2f\n","A for","Member Discount","%",DISCOUNT_RATE_MEMBER*100);
+					System.out.printf("%-10s%-30s%1s%10.2f\n","B for","Senior Discount","%",DISCOUNT_RATE_SENIOR*100);
+					System.out.printf("%-10s%-30s%1s%10.2f\n","C for","No Discount","%",DISCOUNT_RATE_NONE*100);
+					System.out.printf("%-20s\n","Q to Quit the program");
+					System.out.println("Please input your selection now:");
+					menuSelection = input.next().toUpperCase().charAt(0);
+					System.out.printf("\n------------------------------------------------------------");
+					System.out.printf("\n");
+				}
+		
+		}
+		//FAREWELL BANNER
+				System.out.println("\nThank you for choosing Zod Enterprises.");
+				System.out.println("\nHave a Great Day!");
+		
+		input.close();
+	}//END OF MAIN METHOD
+
+}//END OF CLASS
